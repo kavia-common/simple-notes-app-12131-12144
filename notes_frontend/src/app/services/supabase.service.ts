@@ -32,23 +32,26 @@ export class SupabaseService {
     let mod: any = null;
     try {
       const modulePath = ['@supabase', 'supabase-js'].join('/'); // prevents static analyzer from resolving immediately
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      mod = await import(/* @vite-ignore */ (modulePath));
+      // Dynamic import without ts-ignore to satisfy linter
+      mod = await import(/* @vite-ignore */ (modulePath) as unknown as string);
     } catch (_e) {
-      // Fallback to CDN UMD build and use globalThis.supabase
+      // Fallback to CDN UMD build and use globalThis.supabase (browser-only)
+      const hasDocument = typeof (globalThis as any).document !== 'undefined';
       if (!(globalThis as any).__supabase_loading__) {
-        (globalThis as any).__supabase_loading__ = new Promise<void>((resolve, reject) => {
-          const script = document.createElement('script');
-          script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.js';
-          script.async = true;
-          script.onload = () => resolve();
-          script.onerror = (err) => reject(err);
-          document.head.appendChild(script);
-        });
+        (globalThis as any).__supabase_loading__ = hasDocument
+          ? new Promise<void>((resolve, reject) => {
+              const doc: any = (globalThis as any).document;
+              const script = (doc as any).createElement('script');
+              script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.js';
+              script.async = true;
+              script.onload = () => resolve();
+              script.onerror = (err: any) => reject(err);
+              doc.head.appendChild(script);
+            })
+          : Promise.resolve();
       }
       await (globalThis as any).__supabase_loading__;
-      mod = (globalThis as any).supabase;
+      mod = (globalThis as any).supabase || mod;
     }
 
     const create = mod.createClient || (mod.default && mod.default.createClient);

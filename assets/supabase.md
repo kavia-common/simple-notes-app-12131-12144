@@ -13,7 +13,7 @@ Environment variables required (set via build-time environment; do not commit se
 Angular runtime environment access:
 This project reads these values from import.meta.env. The CI/orchestrator should inject them at build time so they are statically embedded.
 
-Database schema (create in Supabase SQL editor):
+Database schema (applied by the automation using Supabase Tools):
 
 CREATE TABLE IF NOT EXISTS public.notes (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -60,12 +60,28 @@ CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 Auth Notes
 - Email/password auth is used with Supabase Auth.
-- The emailRedirectTo option is set using NG_APP_SITE_URL for sign-in/up flows.
+- The emailRedirectTo option is set dynamically using NG_APP_SITE_URL for sign-in/up flows.
 
 Usage in code
 - A SupabaseClient singleton is provided via SupabaseService.
 - NotesService performs CRUD using Supabase JS SDK against the notes table.
 - AuthService handles signup, login, logout, session, and user observable.
+- A helper getURL() is provided to normalize NG_APP_SITE_URL.
+
+Verification Steps (performed by automation):
+1. Validate environment variables exist (NG_APP_SUPABASE_URL, NG_APP_SUPABASE_ANON_KEY, NG_APP_SITE_URL).
+2. List current tables.
+3. Create public.notes if missing.
+4. Enable RLS and apply policies.
+5. Create optional indexes and ensure pg_trgm extension exists.
+6. Document actions and outcomes here.
+
+Manual Dashboard configuration (recommended):
+- Authentication > URL Configuration:
+  - Site URL: set to your NG_APP_SITE_URL (e.g., http://localhost:3000/ in dev, your domain in prod).
+  - Add redirect allowlist entries for your dev and prod URLs.
+- Authentication > Email Templates:
+  - Adjust templates if needed, keeping redirect placeholders.
 
 Security
 - Never commit real keys.
@@ -73,5 +89,5 @@ Security
 - Policies ensure per-user access to notes.
 
 Troubleshooting
-- If auth callbacks fail, verify NG_APP_SITE_URL matches the deployed URL for redirect.
+- If auth callbacks fail, verify NG_APP_SITE_URL matches the deployed URL for redirect and is allowlisted.
 - Ensure RLS and policies are correctly set.

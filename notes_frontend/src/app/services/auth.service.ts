@@ -46,17 +46,19 @@ export class AuthService {
   // PUBLIC_INTERFACE
   async signUp(email: string, password: string) {
     /** This is a public function. Performs email/password sign up with redirect. */
-    const siteUrl =
-      (import.meta as any).env?.NG_APP_SITE_URL ||
-      (typeof (globalThis as any).location?.origin === 'string' ? (globalThis as any).location.origin : '');
+    const { getURL } = await import('./url.util');
     const { data, error } = await (this.supabase.client as any).auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: siteUrl,
+        // Using dynamic site URL ensures dev/prod parity and matches Supabase redirect allowlist
+        emailRedirectTo: `${getURL()}`
       },
     });
-    if (error) throw error;
+    if (error) {
+      // Minimal surfacing - callers display message
+      throw error;
+    }
     return data;
   }
 
