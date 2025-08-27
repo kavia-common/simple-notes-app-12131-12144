@@ -1,0 +1,19 @@
+<div class="backdrop" *ngIf="open">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">{{ note ? 'Edit Note' : 'New Note' }}</div>
+    </div>
+    <div class="modal-body">
+      <label>Title</label>
+      <input [(ngModel)]="title" type="text" placeholder="Note title" />
+      <label>Content</label>
+      <textarea [(ngModel)]="content" rows="8" placeholder="Write your note..."></textarea>
+      <label>Tags (comma separated)</label>
+      <input [(ngModel)]="tags" type="text" placeholder="e.g. work, ideas" />
+    </div>
+    <div class="modal-actions">
+      <button class="cancel" (click)="onCancel()">Cancel</button>
+      <button class="save" (click)="onSave()">{{ note ? 'Update' : 'Create' }}</button>
+    </div>
+  </div>
+</div>

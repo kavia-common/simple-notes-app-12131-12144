@@ -1,0 +1,20 @@
+/* Global styles for minimalistic design */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #1976d2;
+  --secondary: #424242;
+  --accent: #ffb300;
+  --bg: #ffffff;
+  --muted: #9e9e9e;
+}
+
+html, body {
+  height: 100%;
+  background-color: var(--bg);
+  color: #212121;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+body { min-height: 100vh; }
+a { color: var(--primary); }
+button:disabled { opacity: 0.6; cursor: not-allowed; }
