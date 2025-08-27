@@ -1,0 +1,16 @@
+<div class="center">
+  <div class="card">
+    <div class="title">Create account</div>
+    <form (ngSubmit)="onSubmit()">
+      <input [(ngModel)]="email" name="email" type="email" placeholder="Email" required />
+      <input [(ngModel)]="password" name="password" type="password" placeholder="Password" required />
+      <button type="submit">Create account</button>
+    </form>
+    <div class="helper">
+      Already have an account?
+      <a routerLink="/login">Sign in</a>
+    </div>
+    <div class="error" *ngIf="error">{{ error }}</div>
+    <div class="message" *ngIf="message">{{ message }}</div>
+  </div>
+</div>

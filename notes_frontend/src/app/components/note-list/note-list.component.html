@@ -1,0 +1,16 @@
+<div class="list">
+  <div class="item" *ngFor="let n of notes" (click)="onSelect(n)">
+    <div class="row">
+      <div class="title">{{ n.title }}</div>
+      <button class="delete" (click)="onDelete(n, $event)">Delete</button>
+    </div>
+    <div class="snippet">{{ n.content | slice:0:100 }}</div>
+    <div class="meta">
+      <span>{{ n.updated_at | date:'short' }}</span>
+      <div class="tags">
+        <span class="tag" *ngFor="let t of n.tags">{{ t }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="empty" *ngIf="!notes?.length">No notes yet. Click "New" to create one.</div>
+</div>

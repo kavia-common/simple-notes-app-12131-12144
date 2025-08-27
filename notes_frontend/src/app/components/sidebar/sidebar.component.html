@@ -1,0 +1,11 @@
+<aside class="sidebar">
+  <div class="section">
+    <div class="section-title">Tags</div>
+    <div class="tags" *ngIf="tags?.length; else noTags">
+      <span class="tag" *ngFor="let tag of tags">{{tag}}</span>
+    </div>
+    <ng-template #noTags>
+      <div class="empty">No tags yet</div>
+    </ng-template>
+  </div>
+</aside>

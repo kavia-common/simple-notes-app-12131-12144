@@ -1,59 +1,30 @@
-# Angular
+# Notes Frontend (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.
+A modern, minimalistic notes app using Angular 19 and Supabase for authentication and storage.
 
-## Development server
+Features:
+- User authentication (email/password via Supabase)
+- Create, edit, delete notes
+- List and view notes
+- Search notes (title/content)
+- Simple tags display
 
-To start a local development server, run:
+Setup:
+1) Set environment variables (CI/orchestrator maps them at build time):
+   - NG_APP_SUPABASE_URL
+   - NG_APP_SUPABASE_ANON_KEY
+   - NG_APP_SITE_URL
 
-```bash
-ng serve
-```
+2) Install dependencies:
+   npm install
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+3) Run dev server:
+   npm start
+   App runs at http://localhost:3000 (configured in angular.json)
 
-## Code scaffolding
+Supabase:
+- See assets/supabase.md for schema and RLS policies.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Notes:
+- This project uses Angular standalone components.
+- No secrets are committed. Use .env.example for required variables.

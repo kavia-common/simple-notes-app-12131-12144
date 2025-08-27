@@ -1,0 +1,20 @@
+<app-header (create)="onCreate()" (searchChange)="onSearch($event)"></app-header>
+
+<div class="layout">
+  <app-sidebar [tags]="allTags"></app-sidebar>
+  <main class="content">
+    <div class="toolbar">
+      <div class="left">
+        <span class="heading">Your Notes</span>
+        <span class="count" *ngIf="!loading">({{ filteredNotes.length }})</span>
+      </div>
+      <div class="right">
+        <button class="logout" (click)="onLogout()">Logout</button>
+      </div>
+    </div>
+    <div *ngIf="loading" class="loading">Loading...</div>
+    <app-note-list *ngIf="!loading" [notes]="filteredNotes" (select)="onSelect($event)" (delete)="onDelete($event)"></app-note-list>
+  </main>
+</div>
+
+<app-note-editor [open]="editorOpen" [note]="editingNote" (cancel)="onCancelEditor()" (save)="onSaveEditor($event)"></app-note-editor>
